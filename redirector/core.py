@@ -12,7 +12,7 @@ environment variable.
 
 import os
 
-from werkzeug.wrappers import Request
+from werkzeug.wsgi import responder
 from werkzeug.utils import redirect
 
 DEFAULT = 'https://github.com/kennethreitz/redirector'
@@ -28,8 +28,8 @@ def get_destination():
     return os.environ.get('REDIRECTOR_LOCATION', DEFAULT)
 
 
-@Request.application
-def app(request):
+@responder
+def app(*args):
     return redirect(get_destination())
 
 
