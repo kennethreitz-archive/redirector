@@ -12,12 +12,10 @@ environment variable.
 
 import os
 
-from flask import Flask, redirect
-
+from werkzeug.wrappers import Request
+from werkzeug.utils import redirect
 
 DEFAULT = 'https://github.com/kennethreitz/redirector'
-
-app = Flask(__name__)
 
 
 # ------
@@ -30,12 +28,11 @@ def get_destination():
     return os.environ.get('REDIRECTOR_LOCATION', DEFAULT)
 
 
-@app.errorhandler(404)
-def redirect_to_destination(args):
-    """Redirects to destination."""
-
+@Request.application
+def application(request):
     return redirect(get_destination())
 
 
 if __name__ == '__main__':
-    app.run()
+    from werkzeug.serving import run_simple
+    run_simple('localhost', 4000, application)
