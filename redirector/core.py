@@ -29,10 +29,10 @@ def get_destination():
 
 
 @Request.application
-def application(request):
+def app(request):
     return redirect(get_destination())
 
 
 if __name__ == '__main__':
     from werkzeug.serving import run_simple
-    run_simple('localhost', 4000, application)
+    run_simple('localhost', 4000, app)
